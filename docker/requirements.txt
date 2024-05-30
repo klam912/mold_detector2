@@ -1,0 +1,6 @@
+# mold_detector1/docker/requirements.txt
+flask
+numpy
+tensorflow
+psutil
+h5py
