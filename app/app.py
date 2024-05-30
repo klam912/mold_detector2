@@ -5,15 +5,26 @@ from tensorflow.keras.layers import Input, TFSMLayer
 from PIL import Image
 import numpy as np
 import sys
+import os
 
 
 app = Flask(__name__)
 
 # Load model
 # model = load_model('/Users/kenlam/Desktop/Data science/ML projects/project7.1/mold_detector1/model/model.h5')
-input_tensor = Input(shape=(299, 299, 3))
-tfsm_layer = TFSMLayer("saved_model", call_endpoint="serving_default")(input_tensor)
-model = Model(inputs=input_tensor, outputs=tfsm_layer)
+try:
+    model_path = "./app/saved_model(kaggle)"
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"Model path '{model_path}' does not exist.")
+    
+    input_tensor = Input(shape=(299, 299, 3))
+    tfsm_layer = TFSMLayer(model_path, call_endpoint="serving_default")(input_tensor)
+    model = Model(inputs=input_tensor, outputs=tfsm_layer)
+    print("Model loaded successfully.")
+    sys.stdout.flush()
+except Exception as e:
+    print(f"Error loading model: {e}")
+    sys.exit(1)
 
 @app.route('/')
 def index():
@@ -43,15 +54,22 @@ def upload_image():
         sys.stdout.flush()
         image_array = np.array(image) / 255.0
         image_array = np.expand_dims(image_array, axis=0)
-        print(f"Processed image!")
+        print(f"Processed image! Shape: {image_array.shape}")
         sys.stdout.flush()
-        # print("Model summary")
-        # model.summary()
         print("Model predicting...")
-        prediction = model.predict(image_array)
-        print(prediction[0])
+        prediction_dict = model.predict(image_array)
+        print(f"Raw prediction output: {prediction_dict}")
         sys.stdout.flush()
-        classification = "Moldy!" if prediction[0] > 0.5 else "Not moldy!"
+
+        if 'output_0' not in prediction_dict:
+            raise ValueError("Prediction dictionary does not contain 'output_0' key.")
+        
+        prediction_array = prediction_dict['output_0']
+        prediction_value = prediction_array[0][0]
+        print(f"Prediction value: {prediction_value}")
+        sys.stdout.flush()
+
+        classification = "Moldy!" if prediction_value > 0.5 else "Not moldy!"
 
         return jsonify({'classification': classification})
     except Exception as e:
