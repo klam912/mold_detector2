@@ -1,6 +1,10 @@
-# mold_detector1/docker/requirements.txt
-flask
-numpy
-tensorflow
+flask == 3.0.3
+numpy == 1.24.3
+tensorflow == 2.16.1
+keras == 3.3.3
+PIL == 10.2.0
+werkzeug == 3.0.1
+sys
+os
 psutil
 h5py
