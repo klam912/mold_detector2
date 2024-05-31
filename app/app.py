@@ -12,7 +12,6 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 # Load model
-# model = load_model('/Users/kenlam/Desktop/Data science/ML projects/project7.1/mold_detector1/model/model.h5')
 try:
     model_path = "./app/saved_model(kaggle)"
     if not os.path.exists(model_path):
