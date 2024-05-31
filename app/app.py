@@ -21,8 +21,8 @@ try:
     input_tensor = Input(shape=(299, 299, 3))
     tfsm_layer = TFSMLayer(model_path, call_endpoint="serving_default")(input_tensor)
     model = Model(inputs=input_tensor, outputs=tfsm_layer)
-    # print("Model loaded successfully.")
-    # sys.stdout.flush()
+    print("Model loaded successfully.")
+    sys.stdout.flush()
 except Exception as e:
     print(f"Error loading model: {e}")
     sys.exit(1)
@@ -59,27 +59,27 @@ def upload_image():
     print("File ready to be predicted!")
     sys.stdout.flush()
     try:
-        # print("Opening the image")
-        # sys.stdout.flush()
+        print("Opening the image")
+        sys.stdout.flush()
         image = Image.open(file).resize((299,299)) # resize image to fit our model's input
-        # print("Finished opening the image")
-        # sys.stdout.flush()
+        print("Finished opening the image")
+        sys.stdout.flush()
         image_array = np.array(image) / 255.0
         image_array = np.expand_dims(image_array, axis=0)
-        # print(f"Processed image! Shape: {image_array.shape}")
-        # sys.stdout.flush()
-        # print("Model predicting...")
+        print(f"Processed image! Shape: {image_array.shape}")
+        sys.stdout.flush()
+        print("Model predicting...")
         prediction_dict = model.predict(image_array)
-        # print(f"Raw prediction output: {prediction_dict}")
-        # sys.stdout.flush()
+        print(f"Raw prediction output: {prediction_dict}")
+        sys.stdout.flush()
 
         if 'output_0' not in prediction_dict:
             raise ValueError("Prediction dictionary does not contain 'output_0' key.")
         
         prediction_array = prediction_dict['output_0']
         prediction_value = prediction_array[0][0]
-        # print(f"Prediction value: {prediction_value}")
-        # sys.stdout.flush()
+        print(f"Prediction value: {prediction_value}")
+        sys.stdout.flush()
 
         classification = "Moldy!" if prediction_value > 0.5 else "Not moldy!"
 
