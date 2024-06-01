@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 # Load model
 try:
-    model_path = "./app/saved_model(kaggle)"
+    model_path = "/Users/kenlam/Desktop/Data science/ML projects/mold_detector2/app/saved_model(kaggle)"
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Model path '{model_path}' does not exist.")
     
