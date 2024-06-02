@@ -26,12 +26,11 @@ except Exception as e:
     print(f"Error loading model: {e}")
     sys.exit(1)
 
-@app.route('/')
-def index():
-    return send_from_directory('.', 'index.html')
 
-# Set the folder to store uploaded images
-UPLOAD_FOLDER = 'uploads'
+
+# Ensure the upload folder exists
+UPLOAD_FOLDER = os.path.join('app', 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Allowed extensions
@@ -39,6 +38,10 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
 
 @app.route('/upload/', methods=['POST'])
 def upload_image():
