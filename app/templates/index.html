@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Image Classifier</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> -->
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full-width header with background image */
+        header {
+            width: 100%;
+            background-color: #44d613; /* Background color for header */
+            text-align: center;
+            padding: 50px 0; /* Adjust as needed */
+        }
+        /* Welcome image styling */
+        .welcome-image img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 200px; /* Spacing between image and text */
+        }
+
+        /* Main content */
+        main {
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Increase font size of h1 */
+        header h1 {
+            font-size: 50px; /* Adjust as needed */
+        }
+        body {
+            font-family: Comic Sans MS, Comic Sans, cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #44d613; 
+            background-image: url("images/background_image.jpeg") !important;
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+        }
+        #upload-form {
+            margin-bottom: 20px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        #image-upload {
+            display: none;
+        }
+        /* Style the custom button */
+        .custom-file-upload {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        /* Hover effect */
+        .custom-file-upload:hover {
+            background-color: #45a049; /* Darker Green */
+        }
+        .button {
+            background-color: #eb680a; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+        /* Additional info for moldy food */
+        .moldy-info {
+            background-color: #ffcccb; /* Light red */
+            color: #d8000c; /* Dark red */
+            padding: 25px;
+            border-radius: 50px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        /* Additional info for non-moldy food */
+        .non-moldy-info {
+            background-color: #ccffcc; /* Light green */
+            color: #008000; /* Dark green */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        /* Happy image styling */
+        .happy-image img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="welcome-image">
+            <h1>Welcome to the Mold Detector</h1>
+            <img src="app/static/images/background_image.jpeg" alt="Welcome Image">
+            <!-- <img src="{{ url_for('static', filename='app/static/images/background_image.jpeg') }}" alt="Welcome Image"> -->
+        </div>
+    </header>
+    <h2>Please upload Your Food Image</h2>
+    <form id="upload-form" method="POST" enctype="multipart/form-data" action="http://127.0.0.1:5000/upload/">
+        <input type="file" id="image-upload" name="image" accept="image/*" required>
+        <label for="image-upload" class="custom-file-upload">
+            Choose File
+        </label>
+        <button class="button" type="submit">Upload</button>
+    </form>    
+    <div id="result"></div>
+    <div id="moldy-info" class="moldy-info" style="display: none;">
+        <h3>What to Do with Moldy Food</h3>
+        <p>If you find mold on your food, it's important to handle it carefully. Here are some general guidelines:</p>
+        <ul>
+            <li> Don't sniff the moldy item. This can cause respiratory trouble.</li>
+            <li>If food is covered with mold, discard it. Put it into a small paper bag or wrap it in plastic and dispose in a covered trash can that children and animals can't get into.</li>
+            <li>Clean the refrigerator or pantry at the spot where the food was stored.</li>
+            <li>Check nearby items the moldy food might have touched. Mold spreads quickly in fruits and vegetables</li>
+            <li><a href="https://ask.usda.gov/s/article/How-should-you-handle-food-with-mold-on-it#:~:text=If%20food%20is%20covered%20with,moldy%20food%20might%20have%20touched.">Source</a></li>
+        </ul>
+    </div>
+    <div id="non-moldy-info" class="non-moldy-info" style="display: none;">
+        <h3>Your Food is Safe!</h3>
+        <p>Great news! Your food is not moldy. Enjoy your meal!</p>
+        <div class="happy-image">
+            <img src="app/static/images/not_moldy.jpeg" alt="Happy Image">
+            <!-- <img src="{{ url_for('static', filename='app/static/images/not_moldy.jpeg') }}" alt="Happy Image"> -->
+        </div>
+    </div>
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('image-upload');
+            const resultDiv = document.getElementById('result');
+            const moldyInfoDiv = document.getElementById('moldy-info');
+            const nonMoldyInfoDiv = document.getElementById('non-moldy-info');
+
+            if (fileInput.files.length === 0) {
+                resultDiv.innerText = 'Please select an image file to upload.';
+                return;
+            }
+
+            resultDiv.innerText = 'Uploading and classifying...';
+
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/upload/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+
+                const result = await response.json();
+                resultDiv.innerText = `${result.classification}`;
+
+                // Show additional information based on the result
+                if (result.classification.toLowerCase() === 'moldy!') {
+                    moldyInfoDiv.style.display = 'block';
+                    nonMoldyInfoDiv.style.display = 'none';
+                } else {
+                    nonMoldyInfoDiv.style.display = 'block';
+                    moldyInfoDiv.style.display = 'none';
+                }
+            } catch (error) {
+                resultDiv.innerText = `Error: ${error.message}`;
+            }
+        });
+    </script>
+    <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+</body>
+</html>
