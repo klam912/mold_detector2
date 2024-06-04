@@ -29,7 +29,7 @@ document.getElementById('upload-form').addEventListener('submit', async (e) => {
         resultDiv.innerText = `${result.classification}`;
 
         // Show additional information based on the result
-        if (result.classification.toLowerCase() === 'moldy') {
+        if (result.classification.toLowerCase() === 'moldy!') {
             moldyInfoDiv.style.display = 'block';
             nonMoldyInfoDiv.style.display = 'none';
         } else {

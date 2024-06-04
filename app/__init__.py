@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file, render_template
+from flask import Flask, request, jsonify, send_file, render_template, url_for, redirect
 import tensorflow as tf
 from tensorflow.keras.models import load_model, Model
 from tensorflow.keras.layers import Input, TFSMLayer
@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 UPLOAD_FOLDER = os.path.join('app', 'uploads')
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
 
     # Load model
     try:
@@ -42,7 +42,10 @@ def create_app():
 
     @app.route('/')
     def index():
-        return send_file('/Users/kenlam/Desktop/Data science/ML projects/mold_detector2/app/templates/index.html')
+        data = {"message": "Hello from Flask!"}
+        javascript_url = url_for('static', filename='js/script.js')
+        stylesheet_url = url_for('static', filename='css/styles.css')
+        return render_template('index.html', data=data, javascript_url=javascript_url, stylesheet_url=stylesheet_url)
 
     @app.route('/upload/', methods=['POST'])
     def upload_image():
@@ -86,10 +89,19 @@ def create_app():
 
             classification = "Moldy!" if prediction_value > 0.5 else "Not moldy!"
 
-            return jsonify({'classification': classification})
+            return redirect(url_for('result', classification=classification))
         except Exception as e:
             print(f"Error during prediction: {e}")
             return jsonify({'error': str(e)}), 500
+    @app.route('/result/<classification>')
+    def result(classification):
+        if classification == 'Moldy!':
+            message = "Moldy!"
+        else:
+            message = "Not moldy!"
+        javascript_url = url_for('static', filename='js/script.js')
+        stylesheet_url = url_for('static', filename='css/styles.css')
+        return render_template('result.html', message=message, stylesheet_url=stylesheet_url, javascript_url=javascript_url)
     return app
 
 
