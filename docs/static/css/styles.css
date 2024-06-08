@@ -1,0 +1,118 @@
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Full-width header with background image */
+header {
+    width: 100%;
+    background-color: #fdfd96; /* Background color for header */
+    text-align: center;
+    padding: 50px 0; /* Adjust as needed */
+}
+
+/* Main content */
+main {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Increase font size of h1 */
+header h1 {
+    font-size: 50px; /* Adjust as needed */
+}
+body {
+    font-family: Comic Sans MS, Comic Sans, cursive;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #fdfd96; 
+    /* background-image: url("images/background_image.jpeg") !important; */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+}
+#upload-form {
+    margin-bottom: 20px;
+}
+#result {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+#image-upload {
+    display: none;
+}
+/* Style the custom button */
+.custom-file-upload {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+/* Hover effect */
+.custom-file-upload:hover {
+    background-color: #45a049; /* Darker Green */
+}
+.button {
+    background-color: #eb680a; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+/* Additional info for moldy food */
+.moldy-info {
+    color: #d8000c; 
+}
+
+/* Bready */
+.bready {
+    width: 300px; /* Set width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Happy taco */
+.happy-taco {
+    width: 500px;
+    height: auto;
+    justify-content: center;
+    background-color: transparent;
+}
+
+/* Avocado */
+.avocado {
+    width: 300px;
+    height: auto;
+    justify-content: center;
+    background-color: transparent;
+    object-position: center top;
+}
+
+/* Back button */
+.back-button {
+    background-color: #eb680a; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 20px;
+}
