@@ -76,12 +76,7 @@ body {
 }
 /* Additional info for moldy food */
 .moldy-info {
-    background-color: #ffcccb; /* Light red */
-    color: #d8000c; /* Dark red */
-    padding: 25px;
-    border-radius: 50px;
-    margin-top: 20px;
-    text-align: center;
+    color: #d8000c; 
 }
 
 /* Bready */
@@ -92,7 +87,7 @@ body {
 
 /* Happy taco */
 .happy-taco {
-    width: 300px;
+    width: 500px;
     height: auto;
     justify-content: center;
     background-color: transparent;
@@ -104,6 +99,7 @@ body {
     height: auto;
     justify-content: center;
     background-color: transparent;
+    object-position: center top;
 }
 
 /* Back button */

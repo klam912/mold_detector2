@@ -11,8 +11,8 @@
         <h1>{{ message }}</h1>
     </header>
     {% if message.startswith("Moldy!") %}
+        <img src="{{ url_for('static', filename='images/avocado.png') }}" class="avocado" alt="Avocado">
         <div id="moldy-info" class="moldy-info">
-            <img src="{{ url_for('static', filename='images/avocado.png') }}" class="avocado" alt="Avocado">
             <p>If you find mold on your food, it's important to handle it carefully. Here are some general guidelines:</p>
             <ul>
                 <li>Don't sniff the moldy item. This can cause respiratory trouble.</li>
@@ -23,11 +23,7 @@
             </ul>
         </div>
     {% else %}
-        <div id="non-moldy-info" class="non-moldy-info">
-            <div>
-                <img src="{{ url_for('static', filename='images/taco.png') }}" class="happy-taco" alt="Happy Taco">
-            </div>
-        </div>
+        <img src="{{ url_for('static', filename='images/taco.png') }}" class="happy-taco" alt="Happy Taco">
     {% endif %}
     <button class="back-button" onclick="window.location.href='{{ url_for('index') }}'">Back</button>
 </body>
