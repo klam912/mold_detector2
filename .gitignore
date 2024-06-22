@@ -2,8 +2,10 @@
 
 Data/
 docs/
-Train/Train
+Train/Train/Fresh
+Train/Train/Rotten
 uploads/
-Val/
+Val/Fresh
+Val/Rotten
 .DS_Store 
 app/saved_model(kaggle)/
