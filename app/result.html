@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Image Classifier - Result</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>{{ message }}</h1>
+    </header>
+    {% if message.startswith("Moldy!") %}
+        <img src="{{ url_for('static', filename='images/avocado.png') }}" class="avocado" alt="Avocado">
+        <div id="moldy-info" class="moldy-info">
+            <p>If you find mold on your food, it's important to handle it carefully. Here are some general guidelines:</p>
+            <ul>
+                <li>Don't sniff the moldy item. This can cause respiratory trouble.</li>
+                <li>If food is covered with mold, discard it. Put it into a small paper bag or wrap it in plastic and dispose in a covered trash can that children and animals can't get into.</li>
+                <li>Clean the refrigerator or pantry at the spot where the food was stored.</li>
+                <li>Check nearby items the moldy food might have touched. Mold spreads quickly in fruits and vegetables.</li>
+                <li><a href="https://ask.usda.gov/s/article/How-should-you-handle-food-with-mold-on-it#:~:text=If%20food%20is%20covered%20with,moldy%20food%20might%20have%20touched.">Source</a></li>
+            </ul>
+        </div>
+    {% else %}
+        <img src="{{ url_for('static', filename='images/taco.png') }}" class="happy-taco" alt="Happy Taco">
+    {% endif %}
+    <button class="back-button" onclick="window.location.href='{{ url_for('index') }}'">Back</button>
+</body>
+</html>
