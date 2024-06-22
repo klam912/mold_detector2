@@ -6,3 +6,4 @@ Train/
 uploads/
 Val/
 .DS_Store 
+app/saved_model(kaggle)/
