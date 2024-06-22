@@ -1,0 +1,8 @@
+/app/app.py
+
+Data/
+docs/
+Train/
+uploads/
+Val/
+.DS_Store 
