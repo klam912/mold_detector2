@@ -1,9 +1,11 @@
 /app/app.py
 
 Data/
-docs/
+/Users/kenlam/Desktop/Data science/ML projects/mold_detector2/docs
 Train/Train/Fresh
 Train/Train/Rotten
+/Users/kenlam/Desktop/Data science/ML projects/mold_detector2/Train
+/Users/kenlam/Desktop/Data science/ML projects/mold_detector2/Val
 uploads/
 Val/Fresh
 Val/Rotten
